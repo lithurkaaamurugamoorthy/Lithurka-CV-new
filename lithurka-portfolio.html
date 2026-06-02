@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lithurka Murugamoorthy — Full Stack Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07090f;
+    --bg2: #0c0f1a;
+    --bg3: #111522;
+    --surface: #161c2e;
+    --surface2: #1c2340;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #eef0f7;
+    --muted: #6b7491;
+    --muted2: #3d4460;
+    --accent1: #6c63ff;
+    --accent2: #ff6584;
+    --accent3: #43e8d8;
+    --accent4: #ffd166;
+    --accent5: #a8ff78;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.7; overflow-x:hidden; }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 4rem; height:62px;
+    background:rgba(7,9,15,0.92); backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1rem; color:var(--accent1); letter-spacing:0.02em; }
+  .nav-links { display:flex; gap:2.5rem; }
+  .nav-links a { color:var(--muted); text-decoration:none; font-size:0.82rem; letter-spacing:0.06em; text-transform:uppercase; font-family:'DM Mono',monospace; transition:color 0.2s; }
+  .nav-links a:hover { color:var(--text); }
+  .nav-cta { border:1px solid var(--accent1)!important; color:var(--accent1)!important; padding:0.35rem 1.1rem; border-radius:4px; transition:background 0.2s!important; }
+  .nav-cta:hover { background:var(--accent1)!important; color:#fff!important; }
+
+  /* HERO */
+  #hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:8rem 4rem 4rem; position:relative; overflow:hidden; }
+  .hero-dots {
+    position:absolute; inset:0; pointer-events:none;
+    background-image: radial-gradient(rgba(108,99,255,0.18) 1px, transparent 1px);
+    background-size: 36px 36px;
+  }
+  .hero-blob {
+    position:absolute; top:-120px; right:-80px; width:600px; height:600px;
+    background:radial-gradient(circle, rgba(108,99,255,0.09) 0%, transparent 65%);
+    pointer-events:none;
+  }
+  .hero-blob2 {
+    position:absolute; bottom:-100px; left:60px; width:400px; height:400px;
+    background:radial-gradient(circle, rgba(67,232,216,0.06) 0%, transparent 65%);
+    pointer-events:none;
+  }
+  .hero-tag { display:inline-flex; align-items:center; gap:10px; font-family:'DM Mono',monospace; font-size:0.77rem; color:var(--accent3); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:1.5rem; }
+  .hero-tag span { display:inline-block; width:28px; height:1px; background:var(--accent3); }
+  h1.hero-name { font-family:'Syne',sans-serif; font-size:clamp(2.8rem,7vw,6rem); font-weight:800; line-height:0.95; margin-bottom:0.6rem; color:var(--text); }
+  h1.hero-name .acc { color:var(--accent1); }
+  .hero-role { font-family:'DM Mono',monospace; font-size:clamp(0.85rem,1.5vw,1rem); color:var(--muted); margin-bottom:1.8rem; letter-spacing:0.05em; }
+  .hero-role .dot { color:var(--accent1); margin:0 8px; }
+  .hero-desc { max-width:520px; color:var(--muted); font-size:1rem; line-height:1.75; margin-bottom:2.5rem; }
+  .hero-badges { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:2.5rem; }
+  .badge { padding:0.3rem 0.85rem; border-radius:100px; font-family:'DM Mono',monospace; font-size:0.73rem; border:1px solid; }
+  .b1 { background:rgba(108,99,255,0.1); border-color:rgba(108,99,255,0.3); color:var(--accent1); }
+  .b2 { background:rgba(67,232,216,0.08); border-color:rgba(67,232,216,0.25); color:var(--accent3); }
+  .b3 { background:rgba(255,101,132,0.08); border-color:rgba(255,101,132,0.25); color:var(--accent2); }
+  .b4 { background:rgba(168,255,120,0.08); border-color:rgba(168,255,120,0.25); color:var(--accent5); }
+  .hero-btns { display:flex; gap:1rem; flex-wrap:wrap; }
+  .btn-p { background:var(--accent1); color:#fff; padding:0.8rem 2rem; border:none; border-radius:6px; font-family:'Syne',sans-serif; font-weight:600; font-size:0.9rem; cursor:pointer; text-decoration:none; transition:opacity 0.2s,transform 0.15s; display:inline-block; }
+  .btn-p:hover { opacity:0.85; transform:translateY(-2px); }
+  .btn-s { background:transparent; color:var(--text); padding:0.8rem 2rem; border:1px solid var(--border2); border-radius:6px; font-family:'Syne',sans-serif; font-weight:500; font-size:0.9rem; cursor:pointer; text-decoration:none; transition:border-color 0.2s,transform 0.15s; display:inline-block; }
+  .btn-s:hover { border-color:var(--accent3); transform:translateY(-2px); }
+
+  /* CODE FLOAT */
+  .code-float {
+    position:absolute; right:4rem; top:50%; transform:translateY(-50%);
+    background:var(--surface); border:1px solid var(--border2);
+    border-radius:12px; padding:1.5rem; width:320px;
+    font-family:'DM Mono',monospace; font-size:0.78rem; line-height:1.8;
+  }
+  .code-float .cf-bar { display:flex; gap:6px; margin-bottom:1rem; }
+  .cf-dot { width:10px; height:10px; border-radius:50%; }
+  .cf-red { background:#ff5f57; }
+  .cf-yellow { background:#ffbd2e; }
+  .cf-green { background:#28ca42; }
+  .kw { color:var(--accent1); }
+  .fn { color:var(--accent3); }
+  .str { color:var(--accent4); }
+  .cm { color:var(--muted2); }
+  .vr { color:var(--accent2); }
+
+  /* SECTION */
+  section { padding:6rem 4rem; }
+  .sec-label { display:flex; align-items:center; gap:10px; font-family:'DM Mono',monospace; font-size:0.73rem; color:var(--accent1); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:0.75rem; }
+  .sec-label::after { content:''; width:40px; height:1px; background:var(--accent1); }
+  h2.sec-t { font-family:'Syne',sans-serif; font-size:clamp(1.8rem,3.5vw,2.6rem); font-weight:700; line-height:1.1; margin-bottom:0.75rem; }
+  .sec-sub { color:var(--muted); max-width:520px; font-size:0.97rem; margin-bottom:3rem; }
+
+  /* ABOUT */
+  #about { background:var(--bg2); }
+  .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
+  .about-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1.5rem; margin-bottom:1rem; }
+  .about-card h4 { font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:600; margin-bottom:0.4rem; }
+  .about-card p { color:var(--muted); font-size:0.85rem; }
+  .edu-icon { font-size:1.4rem; margin-bottom:0.5rem; }
+  .skills-col h4 { font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:600; color:var(--text); margin-bottom:1rem; }
+  .skill-row { margin-bottom:14px; }
+  .skill-top2 { display:flex; justify-content:space-between; margin-bottom:5px; font-size:0.85rem; }
+  .skill-pct { font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--muted); }
+  .track { height:5px; background:var(--surface2); border-radius:3px; overflow:hidden; }
+  .fill { height:100%; border-radius:3px; width:0; transition:width 1.4s cubic-bezier(0.4,0,0.2,1); }
+  .f1 { background:linear-gradient(90deg,var(--accent1),var(--accent3)); }
+  .f2 { background:linear-gradient(90deg,var(--accent3),var(--accent5)); }
+  .f3 { background:linear-gradient(90deg,var(--accent4),var(--accent2)); }
+  .tech-grid { display:flex; flex-wrap:wrap; gap:8px; margin-top:1.5rem; }
+  .tech-chip { padding:0.3rem 0.85rem; background:var(--surface); border:1px solid var(--border); border-radius:100px; font-family:'DM Mono',monospace; font-size:0.73rem; color:var(--muted); transition:border-color 0.2s,color 0.2s; cursor:default; }
+  .tech-chip:hover { border-color:var(--accent1); color:var(--accent1); }
+
+  /* PROJECTS */
+  #projects { background:var(--bg); }
+  .proj-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1.5rem; }
+  .proj-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; transition:transform 0.25s,border-color 0.25s; cursor:pointer; }
+  .proj-card:hover { transform:translateY(-5px); border-color:var(--border2); }
+  .proj-top { height:160px; display:flex; align-items:center; justify-content:center; font-size:3rem; position:relative; overflow:hidden; }
+  .pt1 { background:linear-gradient(135deg,#0d0820,#1a1040); }
+  .pt2 { background:linear-gradient(135deg,#041818,#082e28); }
+  .pt3 { background:linear-gradient(135deg,#180812,#300d20); }
+  .pt4 { background:linear-gradient(135deg,#111108,#25240c); }
+  .pt5 { background:linear-gradient(135deg,#070c1a,#0e1830); }
+  .pt6 { background:linear-gradient(135deg,#140a04,#281608); }
+  .proj-glow { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+  .proj-glow::before { content:''; position:absolute; width:120px; height:120px; border-radius:50%; filter:blur(40px); opacity:0.4; }
+  .pc1 .proj-glow::before { background:var(--accent1); }
+  .pc2 .proj-glow::before { background:var(--accent3); }
+  .pc3 .proj-glow::before { background:var(--accent2); }
+  .pc4 .proj-glow::before { background:var(--accent4); }
+  .pc5 .proj-glow::before { background:var(--accent1); }
+  .pc6 .proj-glow::before { background:var(--accent5); }
+  .proj-body { padding:1.4rem 1.5rem; }
+  .proj-type { font-family:'DM Mono',monospace; font-size:0.71rem; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.5rem; }
+  .proj-card h3 { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; color:var(--text); margin-bottom:0.5rem; }
+  .proj-card p { color:var(--muted); font-size:0.83rem; margin-bottom:1rem; }
+  .proj-stack { display:flex; flex-wrap:wrap; gap:5px; }
+  .ps { font-family:'DM Mono',monospace; font-size:0.68rem; padding:0.18rem 0.55rem; border-radius:4px; background:var(--bg); border:1px solid var(--border); color:var(--muted); }
+
+  /* EDUCATION / CV */
+  #education { background:var(--bg3); }
+  .edu-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; }
+  .edu-timeline { display:flex; flex-direction:column; gap:0; }
+  .edu-item { display:grid; grid-template-columns:auto 1px 1fr; gap:0 1.5rem; }
+  .edu-left { text-align:right; padding:0 0 2.5rem; padding-top:2px; min-width:120px; }
+  .edu-year { font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--muted); }
+  .edu-line-col { display:flex; flex-direction:column; align-items:center; }
+  .edu-dot { width:11px; height:11px; border-radius:50%; background:var(--accent1); flex-shrink:0; margin-top:4px; box-shadow:0 0 0 3px rgba(108,99,255,0.18); z-index:1; }
+  .edu-vl { flex:1; width:1px; background:linear-gradient(to bottom,var(--accent1),var(--border)); margin-top:4px; }
+  .edu-item:last-child .edu-vl { background:transparent; }
+  .edu-right { padding:0 0 2.5rem; }
+  .edu-title { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; color:var(--text); margin-bottom:0.3rem; }
+  .edu-inst { font-size:0.85rem; color:var(--muted); margin-bottom:0.5rem; }
+  .edu-tags { display:flex; flex-wrap:wrap; gap:5px; }
+  .et { font-family:'DM Mono',monospace; font-size:0.7rem; color:var(--accent3); background:rgba(67,232,216,0.08); border:1px solid rgba(67,232,216,0.2); padding:0.18rem 0.55rem; border-radius:4px; }
+  .cv-panel { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:2rem; }
+  .cv-panel h3 { font-family:'Syne',sans-serif; font-weight:700; font-size:1.05rem; margin-bottom:0.5rem; }
+  .cv-panel p { color:var(--muted); font-size:0.88rem; margin-bottom:1.5rem; }
+  .cv-items { display:flex; flex-direction:column; gap:10px; margin-bottom:1.5rem; }
+  .cv-item { display:flex; align-items:center; gap:10px; font-size:0.85rem; color:var(--muted); }
+  .cv-item span { width:6px; height:6px; border-radius:50%; background:var(--accent1); flex-shrink:0; }
+
+  /* CONTACT */
+  #contact { background:var(--bg2); }
+  .contact-wrap { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
+  .c-info p { color:var(--muted); margin-bottom:2rem; font-size:0.97rem; }
+  .c-links { display:flex; flex-direction:column; gap:10px; }
+  .c-link { display:flex; align-items:center; gap:1rem; text-decoration:none; color:var(--text); padding:0.9rem 1.2rem; background:var(--surface); border:1px solid var(--border); border-radius:8px; transition:border-color 0.2s; }
+  .c-link:hover { border-color:var(--accent1); }
+  .c-icon { width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:0.95rem; }
+  .c-text { font-size:0.87rem; }
+  .c-text small { display:block; color:var(--muted); font-size:0.76rem; }
+  .c-form { display:flex; flex-direction:column; gap:1rem; }
+  .f-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .fg { display:flex; flex-direction:column; gap:0.45rem; }
+  .fg label { font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+  .fg input, .fg textarea, .fg select { background:var(--surface); border:1px solid var(--border); color:var(--text); padding:0.7rem 1rem; border-radius:6px; font-family:'DM Sans',sans-serif; font-size:0.9rem; outline:none; resize:none; transition:border-color 0.2s; }
+  .fg input:focus, .fg textarea:focus { border-color:var(--accent1); }
+  .fg input::placeholder, .fg textarea::placeholder { color:var(--muted2); }
+
+  /* FOOTER */
+  footer { background:var(--bg); padding:2rem 4rem; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+  .f-logo { font-family:'Syne',sans-serif; font-weight:800; color:var(--accent1); font-size:0.95rem; }
+  .f-copy { font-family:'DM Mono',monospace; font-size:0.7rem; color:var(--muted2); }
+  .f-links { display:flex; gap:2rem; }
+  .f-links a { font-family:'DM Mono',monospace; font-size:0.7rem; color:var(--muted2); text-decoration:none; transition:color 0.2s; }
+  .f-links a:hover { color:var(--text); }
+
+  @media(max-width:900px){
+    nav { padding:0 1.5rem; }
+    section { padding:4rem 1.5rem; }
+    #hero { padding:7rem 1.5rem 4rem; }
+    .about-grid,.contact-wrap,.edu-grid { grid-template-columns:1fr; gap:2.5rem; }
+    .code-float { display:none; }
+    .proj-grid { grid-template-columns:1fr; }
+    .f-row { grid-template-columns:1fr; }
+    footer { flex-direction:column; text-align:center; }
+    .edu-item { grid-template-columns:1fr; }
+    .edu-left { text-align:left; padding-bottom:0.4rem; }
+    .edu-line-col { display:none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">LM.dev</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#contact" class="nav-cta">Hire Me</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-blob"></div>
+  <div class="hero-blob2"></div>
+
+  <div class="hero-tag"><span></span> Full Stack Developer · Open to Opportunities</div>
+
+  <h1 class="hero-name">
+    Lithurka<br><span class="acc">Murugamoorthy</span>
+  </h1>
+  <div class="hero-role">
+    Frontend &amp; Backend Development
+    <span class="dot">·</span>
+    Web Applications
+    <span class="dot">·</span>
+    Sri Lanka
+  </div>
+
+  <p class="hero-desc">
+    Passionate full-stack developer with a solid foundation in both frontend and backend technologies. I build clean, functional web applications and I'm actively looking for my first professional role in tech.
+  </p>
+
+  <div class="hero-badges">
+    <span class="badge b1">React / Next.js</span>
+    <span class="badge b2">Node.js</span>
+    <span class="badge b3">HTML · CSS · JS</span>
+    <span class="badge b4">Databases</span>
+    <span class="badge b1">Full Stack Certified</span>
+    <span class="badge b2">A/L Completed</span>
+  </div>
+
+  <div class="hero-btns">
+    <a href="#projects" class="btn-p">View My Projects</a>
+    <a href="#contact" class="btn-s">Get in Touch ↓</a>
+  </div>
+
+  <div class="code-float">
+    <div class="cf-bar">
+      <div class="cf-dot cf-red"></div>
+      <div class="cf-dot cf-yellow"></div>
+      <div class="cf-dot cf-green"></div>
+    </div>
+    <div><span class="kw">const</span> <span class="vr">developer</span> = {</div>
+    <div>&nbsp;&nbsp;<span class="fn">name</span>: <span class="str">"Lithurka"</span>,</div>
+    <div>&nbsp;&nbsp;<span class="fn">stack</span>: <span class="str">["React", "Node.js"]</span>,</div>
+    <div>&nbsp;&nbsp;<span class="fn">status</span>: <span class="str">"Available"</span>,</div>
+    <div>&nbsp;&nbsp;<span class="fn">passion</span>: <span class="str">"Building cool apps"</span>,</div>
+    <div>&nbsp;&nbsp;<span class="fn">goal</span>: <span class="str">"First tech role 🚀"</span></div>
+    <div>}</div>
+    <div style="margin-top:0.5rem"><span class="cm">// Let's build something great!</span></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-label">01 — About</div>
+  <div class="about-grid">
+    <div>
+      <h2 class="sec-t">Who I am &amp;<br>what I build.</h2>
+      <p style="color:var(--muted);margin-bottom:1.5rem;font-size:0.97rem">I'm Lithurka, a self-driven full-stack developer from Sri Lanka. After completing my O/Levels and A/Levels, I invested in a comprehensive full-stack development course and built a strong foundation in modern web technologies.</p>
+      <p style="color:var(--muted);margin-bottom:1.5rem;font-size:0.97rem">I enjoy creating things on the internet — from pixel-perfect frontends to well-structured backends. I'm a fast learner who loves turning ideas into real, working products.</p>
+      <p style="color:var(--muted);margin-bottom:2rem;font-size:0.97rem">Currently building my portfolio and actively looking for internships and junior developer opportunities where I can grow and contribute.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="about-card">
+          <div class="edu-icon">🎨</div>
+          <h4>Frontend</h4>
+          <p>Responsive UIs, modern CSS, React components</p>
+        </div>
+        <div class="about-card">
+          <div class="edu-icon">⚙️</div>
+          <h4>Backend</h4>
+          <p>APIs, server logic, databases, authentication</p>
+        </div>
+        <div class="about-card">
+          <div class="edu-icon">📱</div>
+          <h4>Responsive Design</h4>
+          <p>Mobile-first, cross-browser compatible</p>
+        </div>
+        <div class="about-card">
+          <div class="edu-icon">🚀</div>
+          <h4>Fast Learner</h4>
+          <p>Always picking up new tools & frameworks</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="skills-col">
+      <h4>Technical Skills</h4>
+      <div>
+        <div class="skill-row">
+          <div class="skill-top2"><span>HTML / CSS</span><span class="skill-pct">90%</span></div>
+          <div class="track"><div class="fill f1" data-w="90"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-top2"><span>JavaScript</span><span class="skill-pct">80%</span></div>
+          <div class="track"><div class="fill f1" data-w="80"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-top2"><span>React.js</span><span class="skill-pct">75%</span></div>
+          <div class="track"><div class="fill f2" data-w="75"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-top2"><span>Node.js / Express</span><span class="skill-pct">72%</span></div>
+          <div class="track"><div class="fill f2" data-w="72"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-top2"><span>SQL / MongoDB</span><span class="skill-pct">68%</span></div>
+          <div class="track"><div class="fill f3" data-w="68"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-top2"><span>Git / GitHub</span><span class="skill-pct">78%</span></div>
+          <div class="track"><div class="fill f3" data-w="78"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-top2"><span>REST APIs</span><span class="skill-pct">74%</span></div>
+          <div class="track"><div class="fill f1" data-w="74"></div></div>
+        </div>
+      </div>
+
+      <div style="margin-top:2.5rem;margin-bottom:0.75rem;font-family:'Syne',sans-serif;font-weight:600;font-size:0.9rem">Technologies I Use</div>
+      <div class="tech-grid">
+        <span class="tech-chip">HTML5</span>
+        <span class="tech-chip">CSS3</span>
+        <span class="tech-chip">JavaScript</span>
+        <span class="tech-chip">React</span>
+        <span class="tech-chip">Next.js</span>
+        <span class="tech-chip">Node.js</span>
+        <span class="tech-chip">Express.js</span>
+        <span class="tech-chip">MongoDB</span>
+        <span class="tech-chip">MySQL</span>
+        <span class="tech-chip">Git</span>
+        <span class="tech-chip">GitHub</span>
+        <span class="tech-chip">Tailwind CSS</span>
+        <span class="tech-chip">Bootstrap</span>
+        <span class="tech-chip">REST API</span>
+        <span class="tech-chip">VS Code</span>
+        <span class="tech-chip">Figma</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec-label">02 — Projects</div>
+  <h2 class="sec-t">What I've Built</h2>
+  <p class="sec-sub">A collection of full-stack projects demonstrating both frontend and backend skills. Replace these with your real projects!</p>
+
+  <div class="proj-grid">
+    <div class="proj-card pc1">
+      <div class="proj-top pt1"><div class="proj-glow"></div>🛒</div>
+      <div class="proj-body">
+        <div class="proj-type" style="color:var(--accent1)">Full Stack</div>
+        <h3>E-Commerce Web App</h3>
+        <p>A full-featured online store with product listings, cart, user authentication, and order management. Built with React frontend and Node.js backend.</p>
+        <div class="proj-stack">
+          <span class="ps">React</span><span class="ps">Node.js</span><span class="ps">MongoDB</span><span class="ps">Express</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-card pc2">
+      <div class="proj-top pt2"><div class="proj-glow"></div>💬</div>
+      <div class="proj-body">
+        <div class="proj-type" style="color:var(--accent3)">Full Stack</div>
+        <h3>Real-Time Chat Application</h3>
+        <p>A live chat app with rooms, private messaging, and online status. Uses WebSockets for real-time communication between users.</p>
+        <div class="proj-stack">
+          <span class="ps">React</span><span class="ps">Socket.io</span><span class="ps">Node.js</span><span class="ps">CSS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-card pc3">
+      <div class="proj-top pt3"><div class="proj-glow"></div>📝</div>
+      <div class="proj-body">
+        <div class="proj-type" style="color:var(--accent2)">Frontend</div>
+        <h3>Task Manager App</h3>
+        <p>A clean to-do and task management app with drag-and-drop, categories, deadlines, and local storage persistence. Fully responsive.</p>
+        <div class="proj-stack">
+          <span class="ps">HTML</span><span class="ps">CSS</span><span class="ps">JavaScript</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-card pc4">
+      <div class="proj-top pt4"><div class="proj-glow"></div>🌦️</div>
+      <div class="proj-body">
+        <div class="proj-type" style="color:var(--accent4)">API Integration</div>
+        <h3>Weather Dashboard</h3>
+        <p>A weather app showing 5-day forecasts, hourly data, and location-based weather using the OpenWeather API with a clean card UI.</p>
+        <div class="proj-stack">
+          <span class="ps">JavaScript</span><span class="ps">REST API</span><span class="ps">CSS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-card pc5">
+      <div class="proj-top pt5"><div class="proj-glow"></div>🔐</div>
+      <div class="proj-body">
+        <div class="proj-type" style="color:var(--accent1)">Backend</div>
+        <h3>User Auth System</h3>
+        <p>Secure registration and login system with JWT tokens, password hashing, protected routes, and email verification flow.</p>
+        <div class="proj-stack">
+          <span class="ps">Node.js</span><span class="ps">Express</span><span class="ps">JWT</span><span class="ps">MySQL</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-card pc6">
+      <div class="proj-top pt6"><div class="proj-glow"></div>📊</div>
+      <div class="proj-body">
+        <div class="proj-type" style="color:var(--accent5)">Frontend</div>
+        <h3>Portfolio Website</h3>
+        <p>This very site! A personal portfolio built to showcase skills, projects, and connect with potential employers. Dark modern design.</p>
+        <div class="proj-stack">
+          <span class="ps">HTML</span><span class="ps">CSS</span><span class="ps">JavaScript</span><span class="ps">Chart.js</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="sec-label">03 — Education &amp; CV</div>
+  <div class="edu-grid">
+    <div>
+      <h2 class="sec-t">Education &amp;<br>Qualifications</h2>
+      <p class="sec-sub">My academic background and professional training.</p>
+
+      <div class="edu-timeline">
+        <div class="edu-item">
+          <div class="edu-left"><div class="edu-year">2023 — 2024</div></div>
+          <div class="edu-line-col"><div class="edu-dot"></div><div class="edu-vl"></div></div>
+          <div class="edu-right">
+            <div class="edu-title">Full Stack Developer Course</div>
+            <div class="edu-inst">Professional Certification · Successfully Completed</div>
+            <div class="edu-tags">
+              <span class="et">React</span><span class="et">Node.js</span><span class="et">MongoDB</span><span class="et">Express</span><span class="et">REST APIs</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="edu-item">
+          <div class="edu-left"><div class="edu-year">2021 — 2023</div></div>
+          <div class="edu-line-col">
+            <div class="edu-dot" style="background:var(--accent3);box-shadow:0 0 0 3px rgba(67,232,216,0.15)"></div>
+            <div class="edu-vl"></div>
+          </div>
+          <div class="edu-right">
+            <div class="edu-title">Advanced Level (A/L)</div>
+            <div class="edu-inst">General Certificate of Education · Completed</div>
+            <div class="edu-tags"><span class="et">Science Stream</span></div>
+          </div>
+        </div>
+
+        <div class="edu-item">
+          <div class="edu-left"><div class="edu-year">Before 2021</div></div>
+          <div class="edu-line-col">
+            <div class="edu-dot" style="background:var(--accent4);box-shadow:0 0 0 3px rgba(255,209,102,0.15)"></div>
+            <div class="edu-vl"></div>
+          </div>
+          <div class="edu-right">
+            <div class="edu-title">Ordinary Level (O/L)</div>
+            <div class="edu-inst">General Certificate of Education · Completed</div>
+            <div class="edu-tags"><span class="et">Sri Lanka</span></div>
+          </div>
+        </div>
+
+        <div class="edu-item">
+          <div class="edu-left"><div class="edu-year">Ongoing</div></div>
+          <div class="edu-line-col">
+            <div class="edu-dot" style="background:var(--accent2);box-shadow:0 0 0 3px rgba(255,101,132,0.15)"></div>
+            <div class="edu-vl"></div>
+          </div>
+          <div class="edu-right">
+            <div class="edu-title">Self-Learning & Building</div>
+            <div class="edu-inst">Continuously improving through projects and online resources</div>
+            <div class="edu-tags"><span class="et">YouTube</span><span class="et">Udemy</span><span class="et">MDN Docs</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="cv-panel">
+        <h3>📄 Download My CV</h3>
+        <p>Get a full overview of my education, skills, and projects in a single document. Ready for job applications and internship opportunities.</p>
+        <div class="cv-items">
+          <div class="cv-item"><span></span> O/Level & A/Level qualifications</div>
+          <div class="cv-item"><span></span> Full Stack Developer certification</div>
+          <div class="cv-item"><span></span> Frontend & Backend skills listed</div>
+          <div class="cv-item"><span></span> Portfolio projects included</div>
+          <div class="cv-item"><span></span> Contact details & references</div>
+        </div>
+        <a href="#contact" class="btn-p" style="width:100%;text-align:center;display:block;padding:0.85rem">Request CV via Contact Form</a>
+
+        <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border)">
+          <div style="font-family:'Syne',sans-serif;font-weight:600;font-size:0.9rem;margin-bottom:1rem">Currently Looking For</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--muted)">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--accent5);flex-shrink:0"></span> Junior / Trainee Developer roles
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--muted)">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--accent5);flex-shrink:0"></span> Frontend or Full Stack internships
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--muted)">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--accent5);flex-shrink:0"></span> Freelance web development projects
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--muted)">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--accent5);flex-shrink:0"></span> Remote-friendly positions
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec-label">04 — Contact</div>
+  <h2 class="sec-t">Let's Work Together</h2>
+  <div class="contact-wrap">
+    <div class="c-info">
+      <p>I'm open to junior roles, internships, freelance projects, and collaborations. If you have an opportunity or just want to chat about tech, I'd love to hear from you!</p>
+      <div class="c-links">
+        <a href="mailto:lithurka@email.com" class="c-link">
+          <div class="c-icon" style="background:rgba(108,99,255,0.12)">📧</div>
+          <div class="c-text">lithurka@email.com <small>Email me directly</small></div>
+        </a>
+        <a href="https://linkedin.com" class="c-link">
+          <div class="c-icon" style="background:rgba(67,232,216,0.1)">💼</div>
+          <div class="c-text">linkedin.com/in/lithurka <small>LinkedIn Profile</small></div>
+        </a>
+        <a href="https://github.com" class="c-link">
+          <div class="c-icon" style="background:rgba(168,255,120,0.1)">💻</div>
+          <div class="c-text">github.com/lithurka <small>See my code on GitHub</small></div>
+        </a>
+        <a href="#" class="c-link">
+          <div class="c-icon" style="background:rgba(255,101,132,0.1)">📍</div>
+          <div class="c-text">Sri Lanka <small>Open to remote opportunities</small></div>
+        </a>
+      </div>
+    </div>
+    <div class="c-form">
+      <div class="f-row">
+        <div class="fg"><label>Your Name</label><input type="text" placeholder="Name"></div>
+        <div class="fg"><label>Email</label><input type="email" placeholder="your@email.com"></div>
+      </div>
+      <div class="fg"><label>Subject</label><input type="text" placeholder="Job opportunity / Internship / Project"></div>
+      <div class="fg"><label>Message</label><textarea rows="5" placeholder="Tell me about the opportunity..."></textarea></div>
+      <button class="btn-p" style="width:100%;padding:0.9rem" onclick="this.textContent='Message Sent ✓';this.style.background='#1d6e3d'">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-logo">Lithurka.dev</div>
+  <div class="f-copy">© 2024 Lithurka Murugamoorthy · Full Stack Developer</div>
+  <div class="f-links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+const fills = document.querySelectorAll('.fill');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.style.width = e.target.dataset.w + '%';
+  });
+}, { threshold: 0.3 });
+fills.forEach(f => obs.observe(f));
+</script>
+</body>
+</html>
