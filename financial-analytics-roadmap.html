@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financial analytics roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue-50: #E6F1FB; --blue-400: #378ADD; --blue-600: #185FA5; --blue-800: #0C447C;
+    --teal-50: #E1F5EE; --teal-400: #1D9E75; --teal-600: #0F6E56; --teal-800: #085041;
+    --amber-50: #FAEEDA; --amber-400: #BA7517; --amber-600: #854F0B; --amber-800: #633806;
+    --purple-50: #EEEDFE; --purple-400: #7F77DD; --purple-600: #534AB7; --purple-800: #3C3489;
+    --green-50: #EAF3DE; --green-600: #3B6D11; --green-800: #27500A;
+    --red-50: #FCEBEB; --red-600: #A32D2D; --red-800: #791F1F;
+    --gray-100: #D3D1C7; --gray-400: #888780; --gray-600: #5F5E5A; --gray-800: #444441;
+    --ink: #18181b;
+    --ink-2: #52525b;
+    --ink-3: #a1a1aa;
+    --surface: #fafaf9;
+    --surface-2: #f4f4f0;
+    --surface-3: #eeede8;
+    --border: rgba(0,0,0,0.08);
+    --border-strong: rgba(0,0,0,0.14);
+    --accent: #18181b;
+    --font-display: 'DM Serif Display', serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--surface);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--ink);
+    color: #fafaf9;
+    padding: 56px 48px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.015) 40px,
+      rgba(255,255,255,0.015) 41px
+    );
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 16px;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: rgba(255,255,255,0.55);
+  }
+  .hero-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.6;
+    position: relative;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 0;
+    margin-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 32px;
+    position: relative;
+  }
+  .stat {
+    flex: 1;
+    padding-right: 24px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    margin-right: 24px;
+  }
+  .stat:last-child { border-right: none; margin-right: 0; }
+  .stat-val {
+    font-family: var(--font-display);
+    font-size: 32px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-val.blue { color: #85B7EB; }
+  .stat-val.green { color: #5DCAA5; }
+  .stat-val.plain { color: rgba(255,255,255,0.85); }
+  .stat-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── LEGEND ── */
+  .legend-bar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 48px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .legend-label {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-right: 4px;
+  }
+  .leg-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .leg-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    padding: 40px 48px 64px;
+    max-width: 960px;
+  }
+
+  /* ── TIMELINE SPINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 32px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 12px;
+    bottom: 12px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--ink) 0%, var(--border-strong) 30%, var(--border) 100%);
+  }
+
+  /* ── PHASE BLOCK ── */
+  .phase {
+    position: relative;
+    margin-bottom: 28px;
+    animation: fadeUp 0.4s ease both;
+  }
+  .phase:nth-child(1) { animation-delay: 0.05s; }
+  .phase:nth-child(2) { animation-delay: 0.12s; }
+  .phase:nth-child(3) { animation-delay: 0.19s; }
+  .phase:nth-child(4) { animation-delay: 0.26s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .phase-marker {
+    position: absolute;
+    left: -32px;
+    top: 16px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--surface);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.12);
+    z-index: 1;
+  }
+
+  .phase-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .phase-card:hover {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    transition: background 0.15s, border-color 0.15s;
+    user-select: none;
+  }
+  .phase-card.open .phase-header {
+    border-bottom-color: var(--border);
+  }
+  .phase-header:hover { background: var(--surface-2); }
+
+  .phase-pill {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 99px;
+    flex-shrink: 0;
+  }
+  .phase-name {
+    font-size: 15px;
+    font-weight: 500;
+    flex: 1;
+  }
+  .phase-period {
+    font-size: 12px;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+  }
+  .phase-chevron {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-3);
+    transition: transform 0.25s;
+  }
+  .phase-card.open .phase-chevron { transform: rotate(180deg); }
+  .phase-chevron svg { width: 14px; height: 14px; }
+
+  .phase-body {
+    display: none;
+    padding: 20px;
+    animation: expandIn 0.2s ease;
+  }
+  .phase-card.open .phase-body { display: block; }
+  @keyframes expandIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ── MILESTONES ── */
+  .ms-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 24px;
+    margin-bottom: 20px;
+  }
+  .ms-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .ms-dot-wrap {
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .ms-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+  }
+  .ms-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .ms-sub {
+    font-size: 12px;
+    color: var(--ink-3);
+    line-height: 1.4;
+    margin-top: 1px;
+  }
+
+  /* ── GITHUB SECTION ── */
+  .gh-section {
+    background: var(--surface-2);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .gh-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--ink-2);
+    margin-bottom: 10px;
+    font-family: var(--font-mono);
+  }
+  .gh-repo-name {
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .gh-icon {
+    flex-shrink: 0;
+  }
+  .gh-items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .gh-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 12px;
+    transition: border-color 0.15s;
+  }
+  .gh-item:hover { border-color: var(--border-strong); }
+  .gh-item-icon {
+    flex-shrink: 0;
+    color: var(--ink-3);
+  }
+  .gh-item-name {
+    flex: 1;
+    color: var(--ink);
+    font-size: 11.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .gh-item-meta {
+    font-size: 10.5px;
+    font-family: var(--font-mono);
+    color: var(--ink-3);
+    flex-shrink: 0;
+  }
+
+  /* ── FOOTER ROW ── */
+  .footer-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .badge {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-family: var(--font-mono);
+  }
+
+  /* ── GITHUB ORG NOTE ── */
+  .org-note {
+    margin-top: 36px;
+    padding: 18px 20px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .org-note-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--ink);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .org-note-title {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .org-note-body {
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+  .org-note-body code {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    background: var(--surface-2);
+    padding: 1px 5px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--ink);
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">Strategic roadmap · Financial analytics</div>
+  <h1 class="hero-title">Data to <em>intelligence</em><br>in 18 months</h1>
+  <p class="hero-sub">A four-phase programme from raw ERP data to AI-powered financial co-pilot, managed end-to-end via GitHub.</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-val blue">18</div>
+      <div class="stat-label">months</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val plain">4</div>
+      <div class="stat-label">phases</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val plain">5</div>
+      <div class="stat-label">GitHub repos</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val green">3–5×</div>
+      <div class="stat-label">target ROI</div>
+    </div>
+  </div>
+</div>
+
+<div class="legend-bar">
+  <span class="legend-label">Track</span>
+  <div class="leg-item"><span class="leg-dot" style="background:#378ADD"></span>Data &amp; infra</div>
+  <div class="leg-item"><span class="leg-dot" style="background:#1D9E75"></span>Reporting</div>
+  <div class="leg-item"><span class="leg-dot" style="background:#BA7517"></span>Analytics</div>
+  <div class="leg-item"><span class="leg-dot" style="background:#7F77DD"></span>Predictive / AI</div>
+  <div class="leg-item"><span class="leg-dot" style="background:#18181b"></span>GitHub</div>
+</div>
+
+<div class="main">
+  <div class="timeline" id="timeline"></div>
+
+  <div class="org-note">
+    <div class="org-note-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+      </svg>
+    </div>
+    <div>
+      <div class="org-note-title">GitHub organisation structure</div>
+      <div class="org-note-body">
+        One repo per domain: <code>fin-data-platform</code>, <code>fin-reporting</code>, <code>fin-analytics</code>, <code>fin-ml-models</code>, <code>fin-infra</code>. Branch protection on <code>main</code> with required PR reviews. Each milestone maps to a GitHub Milestone + Project board column. CI/CD via GitHub Actions on all repos.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const phases = [
+  {
+    color: '#378ADD', pillBg: '#E6F1FB', pillTxt: '#185FA5',
+    label: 'Phase 1', name: 'Data foundation', period: 'Q1 · months 1–3',
+    milestones: [
+      { title: 'Data warehouse setup', sub: 'Snowflake / BigQuery, IAM, cost controls' },
+      { title: 'ERP & GL ingestion pipelines', sub: 'Automated nightly loads, schema versioning' },
+      { title: 'Data quality framework', sub: 'Validation rules, anomaly alerts, lineage' },
+      { title: 'Unified chart of accounts', sub: 'Standardise entities, currencies, cost centres' },
+    ],
+    repo: 'fin-data-platform',
+    ghItems: [
+      { icon: 'branch', name: 'feature/warehouse-setup', meta: 'active' },
+      { icon: 'milestone', name: 'Milestone: Data foundation v1.0', meta: '4 issues' },
+      { icon: 'project', name: 'Project board: Data Infra', meta: 'kanban' },
+      { icon: 'shield', name: 'Branch protection on main', meta: '2 reviewers' },
+    ],
+    deliverable: { text: 'Deliverable: clean data lake', bg: '#E6F1FB', col: '#185FA5' },
+    risk: { text: 'Risk: low', bg: '#EAF3DE', col: '#3B6D11' },
+    open: true,
+  },
+  {
+    color: '#1D9E75', pillBg: '#E1F5EE', pillTxt: '#0F6E56',
+    label: 'Phase 2', name: 'Core reporting', period: 'Q2 · months 4–7',
+    milestones: [
+      { title: 'P&L, balance sheet, cash flow', sub: 'GAAP/IFRS compliant, real-time refresh' },
+      { title: 'Self-serve BI dashboards', sub: 'Tableau / Power BI, role-based access' },
+      { title: 'Automated close reporting', sub: 'Month-end pack in &lt;2 hrs' },
+      { title: 'KPI catalogue & ownership', sub: 'Define, document 40+ business metrics' },
+    ],
+    repo: 'fin-reporting',
+    ghItems: [
+      { icon: 'pr', name: 'PR: add P&L dbt models', meta: 'in review' },
+      { icon: 'milestone', name: 'Milestone: Reporting suite v1.0', meta: '6 issues' },
+      { icon: 'release', name: 'Release: v1.0.0-rc', meta: 'pre-release' },
+      { icon: 'ci', name: 'Actions: dbt test & deploy', meta: 'on push' },
+    ],
+    deliverable: { text: 'Deliverable: live financial reports', bg: '#E1F5EE', col: '#0F6E56' },
+    risk: { text: 'Risk: medium', bg: '#FAEEDA', col: '#854F0B' },
+    open: false,
+  },
+  {
+    color: '#BA7517', pillBg: '#FAEEDA', pillTxt: '#854F0B',
+    label: 'Phase 3', name: 'Advanced analytics', period: 'Q3–Q4 · months 8–13',
+    milestones: [
+      { title: 'Driver-based FP&A models', sub: 'Rolling forecasts tied to operational KPIs' },
+      { title: 'Variance & scenario analysis', sub: 'Actuals vs. budget vs. forecast drill-down' },
+      { title: 'Unit economics tracking', sub: 'LTV, CAC, gross margin by segment' },
+      { title: 'Cross-functional data products', sub: 'Finance × Sales × Ops integrated views' },
+    ],
+    repo: 'fin-analytics',
+    ghItems: [
+      { icon: 'branch', name: 'feature/fpa-scenario-engine', meta: 'active' },
+      { icon: 'issues', name: 'Issues: FP&A models — 12 open', meta: 'sprint backlog' },
+      { icon: 'milestone', name: 'Milestone: Analytics v2.0', meta: '8 issues' },
+      { icon: 'ci', name: 'CI: model validation + alerts', meta: 'nightly' },
+    ],
+    deliverable: { text: 'Deliverable: FP&A command centre', bg: '#FAEEDA', col: '#854F0B' },
+    risk: { text: 'Risk: high', bg: '#FCEBEB', col: '#A32D2D' },
+    open: false,
+  },
+  {
+    color: '#7F77DD', pillBg: '#EEEDFE', pillTxt: '#534AB7',
+    label: 'Phase 4', name: 'Predictive intelligence & AI', period: 'Q5–Q6 · months 14–18',
+    milestones: [
+      { title: 'ML revenue forecasting', sub: 'Time-series models, confidence intervals' },
+      { title: 'Cash flow prediction', sub: '13-week rolling AI-assisted projection' },
+      { title: 'Anomaly detection & alerts', sub: 'Real-time spend / fraud flagging' },
+      { title: 'Natural language finance Q&A', sub: 'LLM interface over financial data' },
+    ],
+    repo: 'fin-ml-models',
+    ghItems: [
+      { icon: 'branch', name: 'feature/revenue-forecast-v1', meta: 'active' },
+      { icon: 'milestone', name: 'Milestone: AI co-pilot v1.0', meta: '10 issues' },
+      { icon: 'shield', name: 'Model governance workflow', meta: 'sign-off required' },
+      { icon: 'ci', name: 'CI: training + eval pipeline', meta: 'GPU runner' },
+    ],
+    deliverable: { text: 'Deliverable: AI finance co-pilot', bg: '#EEEDFE', col: '#534AB7' },
+    risk: { text: 'Risk: high', bg: '#FCEBEB', col: '#A32D2D' },
+    open: false,
+  },
+];
+
+const icons = {
+  branch: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>`,
+  pr:     `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>`,
+  milestone: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h13l4-3.5L18 6z"/><line x1="12" y1="13" x2="12" y2="22"/></svg>`,
+  project: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>`,
+  shield: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+  release:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+  ci:     `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+  issues: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+};
+
+const chevronSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+const ghIconSVG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>`;
+
+const timeline = document.getElementById('timeline');
+
+phases.forEach((p, i) => {
+  const div = document.createElement('div');
+  div.className = 'phase';
+  div.innerHTML = `
+    <div class="phase-marker" style="background:${p.color}"></div>
+    <div class="phase-card ${p.open ? 'open' : ''}" data-index="${i}">
+      <div class="phase-header">
+        <span class="phase-pill" style="background:${p.pillBg};color:${p.pillTxt}">${p.label}</span>
+        <span class="phase-name">${p.name}</span>
+        <span class="phase-period">${p.period}</span>
+        <span class="phase-chevron">${chevronSVG}</span>
+      </div>
+      <div class="phase-body">
+        <div class="ms-grid">
+          ${p.milestones.map(m => `
+            <div class="ms-item">
+              <div class="ms-dot-wrap"><div class="ms-dot" style="background:${p.color}"></div></div>
+              <div>
+                <div class="ms-title">${m.title}</div>
+                <div class="ms-sub">${m.sub}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="gh-section">
+          <div class="gh-heading">
+            <span class="gh-icon">${ghIconSVG}</span>
+            fin-analytics-org / <span class="gh-repo-name">${p.repo}</span>
+          </div>
+          <div class="gh-items">
+            ${p.ghItems.map(it => `
+              <div class="gh-item">
+                <span class="gh-item-icon">${icons[it.icon] || ''}</span>
+                <span class="gh-item-name" title="${it.name}">${it.name}</span>
+                <span class="gh-item-meta">${it.meta}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="footer-row">
+          <span class="badge" style="background:${p.deliverable.bg};color:${p.deliverable.col}">${p.deliverable.text}</span>
+          <span class="badge" style="background:${p.risk.bg};color:${p.risk.col}">${p.risk.text}</span>
+        </div>
+      </div>
+    </div>
+  `;
+  timeline.appendChild(div);
+});
+
+document.querySelectorAll('.phase-header').forEach(h => {
+  h.addEventListener('click', () => {
+    h.closest('.phase-card').classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>
